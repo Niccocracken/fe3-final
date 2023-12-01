@@ -21,7 +21,6 @@ const Home = () => {
     <main className="" >
       <h1>Home</h1>
       <div className='card-grid'>
-        {/* Aqui deberias renderizar las cards */}
         {dentistas.length 
         ? dentistas.map(dentista=>(
           <Card key={dentista.id} name={dentista.name} username={dentista.username} id={dentista.id}/>))
