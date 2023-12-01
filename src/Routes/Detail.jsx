@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import imagenDoctor from "../images/doctor.jpg"
+import { ContextGlobal } from '../Components/utils/global.context'
 
 //Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
 
 const Detail = () => {
+  const context=useContext(ContextGlobal)
+  const {state}=context
+  const {data}=state
+
   const [dentista, setDentista] = useState([])
   const params = useParams()
 
-  const getDentista = async () => {
-    const res = await fetch(`https://jsonplaceholder.typicode.com/users/${params.id}`)
-    const data = await res.json()
-    setDentista(data)
-  }
-
   useEffect(() => {
-    getDentista()
+    setDentista(data[params.id-1])
   }, [])
 
   return (

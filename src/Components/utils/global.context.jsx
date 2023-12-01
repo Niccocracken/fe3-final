@@ -1,8 +1,8 @@
-import { createContext, useEffect, useReducer} from "react";
+import { createContext, useEffect, useMemo, useReducer} from "react";
 
-export const initialState = { theme: "", data: [] }
+export const initialState = { theme: "light", data: [] }
 
-export const ContextGlobal = createContext(undefined);
+export const ContextGlobal = createContext(initialState);
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -14,30 +14,28 @@ const reducer = (state, action) => {
       return state
   }
 }
-
 export const ContextProvider = ({ children }) => {
-  //Aqui deberan implementar la logica propia del Context, utilizando el hook useMemo
-  
+
   const [state, dispatch] = useReducer(reducer, initialState)
   
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
+  useEffect(()=>{
+        const fetchData= async () => {
         const response = await fetch('https://jsonplaceholder.typicode.com/users');
         const data = await response.json();
-        dispatch({ type: 'setData', data });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
-  }, []);
+        dispatch({ type: 'setData', data:data });
+  }
+  fetchData()
+}, []);
 
-  const contextValue = useMemo(() => ({ state, dispatch }), [state, dispatch]);
+  const handleChangeTheme = () => {
+    dispatch({ type: 'changeTheme', theme: state.theme === 'dark' ? 'light' : 'dark' });
+  }
+
+  const contextValue = useMemo(() => ({ state, handleChangeTheme }), [state, handleChangeTheme])
 
   return (
-    <AppContext.Provider value={contextValue}>
+    <ContextGlobal.Provider value={contextValue}>
       {children}
-    </AppContext.Provider>
+    </ContextGlobal.Provider>
   );
 };

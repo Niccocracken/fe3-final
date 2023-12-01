@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Card from '../Components/Card'
+import { ContextGlobal } from '../Components/utils/global.context'
 
 //Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
 
 const Home = () => {
+  const context=useContext(ContextGlobal)
+  const {state}=context
+  const {data}=state
 
   const [dentistas,setDentistas]=useState([])
 
-  const getDentistas = async()=>{
-    const res= await fetch('https://jsonplaceholder.typicode.com/users')
-    const data= await res.json()
-    setDentistas(data)
-  }
-
   useEffect(()=>{
-    getDentistas()
+    setDentistas(data)
   })
 
   return (
