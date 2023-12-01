@@ -5,8 +5,16 @@ import { Link } from "react-router-dom";
 
 const Card = ({ name, username, id }) => {
 
+  const getLocalStorage = () => {
+    const localData = localStorage.getItem("favs");
+    return localData ? JSON.parse(localData) : [];
+  };
+
   const addFav = ()=>{
-    // Aqui iria la logica para agregar la Card en el localStorage
+    const favs = getLocalStorage();
+    favs.push({ name, username, id });
+
+    localStorage.setItem('favs', JSON.stringify(favs));
   }
 
   return (
