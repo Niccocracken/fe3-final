@@ -2,12 +2,10 @@ import React, { useContext, useEffect, useState } from 'react'
 import Card from '../Components/Card'
 import { ContextGlobal } from '../Components/utils/global.context'
 
-//Este componente debera ser estilado como "dark" o "light" dependiendo del theme del Context
-
 const Home = () => {
   const context=useContext(ContextGlobal)
   const {state}=context
-  const {data}=state
+  const {data,theme}=state
 
   const [dentistas,setDentistas]=useState([])
 
@@ -16,7 +14,7 @@ const Home = () => {
   })
 
   return (
-    <main className="" >
+    <main className={theme} >
       <h1>Home</h1>
       <div className='card-grid'>
         {dentistas.length 
